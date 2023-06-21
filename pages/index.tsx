@@ -1,3 +1,4 @@
+import React from 'react'
 import Head from 'next/head'
 import Layout from '../components/layout'
 import { GetStaticProps } from 'next'
@@ -12,10 +13,13 @@ export default function Home() {
   series: [{
     data: [1, 2, 3]
   }]
-}
+    }
+  
     return (
-        <Layout home>
-            <Head>
+      <Layout home>
+    
+        <Head>
+          
                 <title>BTC Address Balances over Time</title>
             </Head>
             <section>
@@ -23,11 +27,13 @@ export default function Home() {
                 <HighchartsReact
     highcharts={Highcharts}
     options={options}
-  />
-                
+          />
+        
             </section>
         </Layout>
     )
+
+  
 }
 
 export const getStaticProps: GetStaticProps = async () => {
