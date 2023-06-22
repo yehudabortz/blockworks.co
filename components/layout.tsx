@@ -1,21 +1,21 @@
 import Head from 'next/head'
 
 export default function Layout({
-                                   children
-                               }: {
+    children
+}: {
     children: React.ReactNode
     home?: boolean
 }) {
     return (
         <div>
             <Head>
-                <link rel="icon" href="/favicon.ico"/>
+                <link rel="icon" href="/favicon.ico" />
                 <meta
                     name="description"
                     content=""
                 />
-                <meta name="og:title" content="BTC Addresses"/>
-                <meta name="twitter:card" content="summary_large_image"/>
+                <meta name="og:title" content="BTC Addresses" />
+                <meta name="twitter:card" content="summary_large_image" />
             </Head>
             <header>
                 <div className="mx-auto max-w-7xl px-6 lg:px-8 py-8">

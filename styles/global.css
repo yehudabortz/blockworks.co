@@ -1,6 +1,6 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 html,
 body {
@@ -10,6 +10,7 @@ body {
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
   line-height: 1.6;
   font-size: 18px;
+  min-height: 100vh;
 }
 
 * {
@@ -28,4 +29,8 @@ a:hover {
 img {
   max-width: 100%;
   display: block;
+}
+
+.highcharts-credits {
+  display: none;
 }
