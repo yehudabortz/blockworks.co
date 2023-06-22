@@ -13,15 +13,12 @@ const SERIES_TYPE = 'line';
 
 const createDataPoints = (data: IBitcoinBalanceChunk[]): TChartDataPoint[] => {
     const newArray: TChartDataPoint[] = [];
-    data.forEach((obj) => {
-        const time = new Date(obj["Time"]).getTime();
-        Object.keys(obj).forEach(key => {
-            if (key !== "Time") {
-                const item: TChartDataPoint = [time, obj[key]];
-                newArray.push(item);
-            }
-        });
-    });
+
+    for (let i = 0; i < data.length; i++) {
+        for (let j = 1; j < data[i].length; j++) {
+            newArray.push([new Date(data[i][0]).getTime(), Number(data[i][j])]);
+        }
+    }
     return newArray;
 }
 

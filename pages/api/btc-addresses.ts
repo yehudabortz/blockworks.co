@@ -1,9 +1,9 @@
+import { NextApiRequest, NextApiResponse } from "next";
 import fs from "fs";
-import { parse as csvParse } from "csv-parse";
-import { NextResponse } from "next/server";
-import { IBitcoinBalanceChunk } from "../../../types/bitcoinData";
+import { parse } from "csv-parse";
+import { IBitcoinBalanceChunk } from "../../types/bitcoinData";
 
-export const GET = async () => {
+export default (_: NextApiRequest, res: NextApiResponse) => {
   const data: IBitcoinBalanceChunk[] = [];
 
   const file = fs.createReadStream(
@@ -12,7 +12,7 @@ export const GET = async () => {
 
   file
     .pipe(
-      csvParse({
+      parse({
         delimiter: "\t",
         encoding: "utf16le",
         from_line: 2,
@@ -22,13 +22,13 @@ export const GET = async () => {
         rtrim: true,
       })
     )
-    .on("data", (row) => {
+    .on("data", function (row) {
       data.push(row);
     })
     .on("end", () => {
-      return NextResponse.json({ data });
+      res.status(200).json(data);
     })
     .on("error", (error) => {
-      return NextResponse.json({ error });
+      error;
     });
 };
