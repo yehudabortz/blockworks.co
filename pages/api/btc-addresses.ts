@@ -8,7 +8,7 @@ export default (_: NextApiRequest, res: NextApiResponse) => {
     dynamicTyping: true,
     skipEmptyLines: true,
   });
-  res.status(200).json(parsed);
+  res.status(200).json(parsed.data);
 };
 
 const csv = `"Time"	"BTC / Addr Cnt of Bal ≥ $1K"	"BTC / Val in Addrs w/ Bal ≥ $10K USD"	"BTC / Val in Addrs w/ Bal ≥ $100K USD"	"BTC / Val in Addrs w/ Bal ≥ $1M USD"	"BTC / Val in Addrs w/ Bal ≥ $10M USD"
