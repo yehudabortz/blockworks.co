@@ -3,10 +3,10 @@ import React from 'react'
 import Highcharts from 'highcharts/highstock'
 import HighchartsReact from 'highcharts-react-official'
 
+
 const BtcChart = ({ data }) => {
     function createDataPoints(data) {
         const newArray = [];
-
         data.forEach(obj => {
             const time = new Date(obj["Time"]).getTime();
             Object.keys(obj).forEach(key => {
@@ -16,30 +16,39 @@ const BtcChart = ({ data }) => {
                 }
             });
         });
-
         return newArray;
     }
 
     const chartData = createDataPoints(data)
     const options = {
+
+        tooltip: {
+            format:
+                '{#each points}' +
+                '<span style="color:{color}">\u25CF</span> ' +
+                `{series.name}: <b>{point.y:.2f}</b><br/>` +
+                '{/each}'
+        },
+        yAxis: {
+            offset: 50
+        },
         series: [{
             name: "> $1k",
-            data: chartData.filter(item => item[1] >= 1000),
+            data: chartData.filter(item => item[1] >= 1000)
         }, {
             name: "> $10k",
-            data: chartData.filter(item => item[1] >= 10000),
+            data: chartData.filter(item => item[1] >= 10000)
 
         }, {
             name: "> $100k",
-            data: chartData.filter(item => item[1] >= 100000),
+            data: chartData.filter(item => item[1] >= 100000)
 
         }, {
             name: "> $1M",
-            data: chartData.filter(item => item[1] >= 100000),
-
+            data: chartData.filter(item => item[1] >= 1000000)
         }, {
             name: "> $10M",
-            data: chartData.filter(item => item[1] >= 1000000),
+            data: chartData.filter(item => item[1] >= 10000000)
         }],
     }
 
