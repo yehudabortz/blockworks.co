@@ -10,8 +10,7 @@ const Home = ({ data }) => {
       <Head>
         <title>BTC Address Balances over Time</title>
       </Head>
-      <section>
-        <div className="max-w-2xl mx-auto p-8 text-center">Chart goes here</div>
+      <section >
         <BtcChart data={data} />
       </section>
     </Layout>
