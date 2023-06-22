@@ -1,4 +1,5 @@
 import 'server-only';
+
 import BtcChart from '../components/btcChart';
 
 async function getData() {

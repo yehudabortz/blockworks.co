@@ -3,7 +3,7 @@ import { parse as csvParse } from "csv-parse";
 import { NextResponse } from "next/server";
 import { IBitcoinBalanceChunk } from "../../../types/bitcoinData";
 
-export async function GET() {
+export const GET = async () => {
   const data: IBitcoinBalanceChunk[] = [];
 
   const file = fs.createReadStream(
@@ -31,4 +31,4 @@ export async function GET() {
     .on("error", (error) => {
       return NextResponse.json({ error });
     });
-}
+};
