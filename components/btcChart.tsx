@@ -1,24 +1,27 @@
+'use client';
+
+import 'client-only';
+
 import React, { useMemo } from 'react';
 import Highcharts, { SeriesOptionsType } from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
+import { IBitcoinBalanceChunk } from '../types/bitcoinData';
 
-interface DataItem {
-    Time: string;
-    [key: string]: string | number;
+interface ChartDataPoint {
+    [key: number]: any;
 }
 
-interface BtcChartProps {
-    data: DataItem[];
+type Props = {
+    data: IBitcoinBalanceChunk[];
 }
 
-const createDataPoints = (data: DataItem[]) => {
-    const newArray: number[][] = [];
+const createDataPoints = (data: IBitcoinBalanceChunk[]): ChartDataPoint[] => {
+    const newArray: ChartDataPoint[] = [];
     data.forEach(obj => {
-        console.log(obj)
         const time = new Date(obj["Time"]).getTime();
         Object.keys(obj).forEach(key => {
             if (key !== "Time") {
-                const item: number[] = [time, Number(obj[key])];
+                const item: ChartDataPoint[] = [time, obj[key]];
                 newArray.push(item);
             }
         });
@@ -29,9 +32,9 @@ const createDataPoints = (data: DataItem[]) => {
 const LINE_WIDTH = 2;
 const SERIES_TYPE = 'line';
 
-const BtcChart: React.FC<BtcChartProps> = ({ data }) => {
+const BtcChart: React.FC<Props> = ({ data }) => {
 
-    const chartData: number[][] = useMemo(() => createDataPoints(data), [data]);
+    const chartData = useMemo(() => createDataPoints(data), [data]);
 
     const seriesData = useMemo(() => [
         { name: "> $1k", threshold: 1000, color: "#fa4d56" },
@@ -56,9 +59,9 @@ const BtcChart: React.FC<BtcChartProps> = ({ data }) => {
         },
         tooltip: {
             useHTML: true,
-            formatter: function () {
+            formatter: () => {
                 return this.points?.map((point) =>
-                    `<span style="color:${point.color}">\u25CF</span> ${point.series.name}: <b>${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(point.y as number | bigint)}</b><br/>`
+                    `<span style="color:${point?.color}">\u25CF</span> ${point?.series.name}: <b>${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(point.y as number | bigint)}</b><br/>`
                 ).join('');
             }
         },
