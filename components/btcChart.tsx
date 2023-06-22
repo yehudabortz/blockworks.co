@@ -22,6 +22,10 @@ const BtcChart = ({ data }) => {
     const chartData = createDataPoints(data)
     const options = {
 
+        legend: {
+            enabled: true
+        },
+
         tooltip: {
             format:
                 '{#each points}' +
@@ -30,25 +34,34 @@ const BtcChart = ({ data }) => {
                 '{/each}'
         },
         yAxis: {
-            offset: 50
+            offset: 50,
         },
         series: [{
             name: "> $1k",
-            data: chartData.filter(item => item[1] >= 1000)
+            data: chartData.filter(item => item[1] >= 1000),
+            lineWidth: "2px",
+            color: "#fa4d56"
         }, {
             name: "> $10k",
-            data: chartData.filter(item => item[1] >= 10000)
-
+            data: chartData.filter(item => item[1] >= 10000),
+            lineWidth: "2px",
+            color: "#6929c4"
         }, {
             name: "> $100k",
-            data: chartData.filter(item => item[1] >= 100000)
+            data: chartData.filter(item => item[1] >= 100000),
+            lineWidth: "2px"
+            , color: "#002d9c"
 
         }, {
             name: "> $1M",
-            data: chartData.filter(item => item[1] >= 1000000)
+            data: chartData.filter(item => item[1] >= 1000000),
+            lineWidth: "2px"
+            , color: "#f1c21b"
         }, {
             name: "> $10M",
-            data: chartData.filter(item => item[1] >= 10000000)
+            data: chartData.filter(item => item[1] >= 10000000),
+            lineWidth: "2px"
+            , color: "#198038"
         }],
     }
 
