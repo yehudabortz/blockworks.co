@@ -1,68 +1,68 @@
+import React, { useMemo } from 'react';
+import Highcharts, { SeriesOptionsType } from 'highcharts/highstock';
+import HighchartsReact from 'highcharts-react-official';
 
-import React from 'react'
-import Highcharts from 'highcharts/highstock'
-import HighchartsReact from 'highcharts-react-official'
+interface DataItem {
+    Time: string;
+    [key: string]: string | number;
+}
 
+interface BtcChartProps {
+    data: DataItem[];
+}
 
-const BtcChart = ({ data }) => {
-    function createDataPoints(data) {
-        const newArray = [];
-        data.forEach(obj => {
-            const time = new Date(obj["Time"]).getTime();
-            Object.keys(obj).forEach(key => {
-                if (key !== "Time") {
-                    const item = [time, obj[key]];
-                    newArray.push(item);
-                }
-            });
+const createDataPoints = (data: DataItem[]) => {
+    const newArray: number[][] = [];
+    data.forEach(obj => {
+        console.log(obj)
+        const time = new Date(obj["Time"]).getTime();
+        Object.keys(obj).forEach(key => {
+            if (key !== "Time") {
+                const item: number[] = [time, Number(obj[key])];
+                newArray.push(item);
+            }
         });
-        return newArray;
-    }
+    });
+    return newArray;
+}
 
-    const chartData = createDataPoints(data)
-    const options = {
+const LINE_WIDTH = 2;
+const SERIES_TYPE = 'line';
 
+const BtcChart: React.FC<BtcChartProps> = ({ data }) => {
+
+    const chartData: number[][] = useMemo(() => createDataPoints(data), [data]);
+
+    const seriesData = useMemo(() => [
+        { name: "> $1k", threshold: 1000, color: "#fa4d56" },
+        { name: "> $10k", threshold: 10000, color: "#6929c4" },
+        { name: "> $100k", threshold: 100000, color: "#002d9c" },
+        { name: "> $1M", threshold: 1000000, color: "#f1c21b" },
+        { name: "> $10M", threshold: 10000000, color: "#198038" },
+    ].map(({ name, threshold, color }) => ({
+        name,
+        data: chartData.filter(item => item[1] >= threshold),
+        lineWidth: LINE_WIDTH,
+        color,
+        type: SERIES_TYPE
+    })), [chartData]);
+
+    const options: Highcharts.Options = {
         legend: {
             enabled: true
-        },
-
-        tooltip: {
-            format:
-                '{#each points}' +
-                '<span style="color:{color}">\u25CF</span> ' +
-                `{series.name}: <b>{point.y:.2f}</b><br/>` +
-                '{/each}'
         },
         yAxis: {
             offset: 50,
         },
-        series: [{
-            name: "> $1k",
-            data: chartData.filter(item => item[1] >= 1000),
-            lineWidth: "2px",
-            color: "#fa4d56"
-        }, {
-            name: "> $10k",
-            data: chartData.filter(item => item[1] >= 10000),
-            lineWidth: "2px",
-            color: "#6929c4"
-        }, {
-            name: "> $100k",
-            data: chartData.filter(item => item[1] >= 100000),
-            lineWidth: "2px"
-            , color: "#002d9c"
-
-        }, {
-            name: "> $1M",
-            data: chartData.filter(item => item[1] >= 1000000),
-            lineWidth: "2px"
-            , color: "#f1c21b"
-        }, {
-            name: "> $10M",
-            data: chartData.filter(item => item[1] >= 10000000),
-            lineWidth: "2px"
-            , color: "#198038"
-        }],
+        tooltip: {
+            useHTML: true,
+            formatter: function () {
+                return this.points?.map((point) =>
+                    `<span style="color:${point.color}">\u25CF</span> ${point.series.name}: <b>${new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(point.y as number | bigint)}</b><br/>`
+                ).join('');
+            }
+        },
+        series: seriesData as SeriesOptionsType[],
     }
 
     return (
@@ -76,10 +76,6 @@ const BtcChart = ({ data }) => {
             />
         </div>
     )
-
-
 }
 
-export default BtcChart
-
-
+export default BtcChart;
