@@ -1,3 +1,1 @@
-export interface IBitcoinBalanceChunk {
-  [key: string]: string & number;
-}
+export type TBitcoinBalanceChunk = { [key: string]: string & number };

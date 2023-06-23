@@ -1,10 +1,10 @@
+import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import Layout from '../components/layout'
-import { GetStaticProps } from 'next'
 import BtcChart from '../components/BtcChart/btcChart'
-import { IBitcoinBalanceChunk } from '../types/bitcoinData'
+import { TBitcoinBalanceChunk } from '../types/bitcoinData'
 
-type Props = { data: IBitcoinBalanceChunk[] }
+type Props = { data: TBitcoinBalanceChunk[] }
 
 export default function Home({ data }: Props) {
     return (
