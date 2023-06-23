@@ -3,6 +3,17 @@ import fs from 'fs';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { TBitcoinBalanceChunk } from '../../types/bitcoinData';
+import { TChartDataPoint } from '../../types/btcChart';
+
+const toChartDataPoints = (data: TBitcoinBalanceChunk[]): TChartDataPoint[] => {
+  const newArray: TChartDataPoint[] = [];
+  for (let i = 0; i < data.length; i++) {
+    for (let j = 1; j < data[i].length; j++) {
+      newArray.push([new Date(data[i][0]).getTime(), Number(data[i][j])]);
+    }
+  }
+  return newArray;
+};
 
 export default (_: NextApiRequest, res: NextApiResponse) => {
   const data: TBitcoinBalanceChunk[] = [];
@@ -28,7 +39,7 @@ export default (_: NextApiRequest, res: NextApiResponse) => {
     })
     .on('end', () => {
       if (data.length > 0) {
-        res.status(200).json(data);
+        res.status(200).json(toChartDataPoints(data));
       } else {
         res.status(404).send('No data found');
       }

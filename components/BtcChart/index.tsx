@@ -3,26 +3,12 @@ import HighchartsReact from 'highcharts-react-official';
 import { FC, useMemo } from 'react';
 
 import { TBitcoinBalanceChunk } from '../../types/bitcoinData';
-import { TChartDataPoint } from '../../types/btcChart';
-
-const createDataPoints = (data: TBitcoinBalanceChunk[]): TChartDataPoint[] => {
-  const newArray: TChartDataPoint[] = [];
-
-  for (let i = 0; i < data.length; i++) {
-    for (let j = 1; j < data[i].length; j++) {
-      newArray.push([new Date(data[i][0]).getTime(), Number(data[i][j])]);
-    }
-  }
-  return newArray;
-};
 
 type Props = {
   data: TBitcoinBalanceChunk[];
 };
 
 const BtcChart: FC<Props> = ({ data }) => {
-  const chartData = useMemo(() => createDataPoints(data), [data]);
-
   const seriesData = useMemo(
     () =>
       [
@@ -33,12 +19,12 @@ const BtcChart: FC<Props> = ({ data }) => {
         { name: '> $10M', threshold: 10000000, color: '#198038' },
       ].map(({ name, threshold, color }) => ({
         name,
-        data: chartData.filter((item) => item[1] >= threshold),
+        data: data.filter((item) => item[1] >= threshold),
         lineWidth: 2,
         color,
         type: 'line',
       })),
-    [chartData],
+    [data],
   );
 
   const options: Highcharts.Options = {
@@ -53,6 +39,9 @@ const BtcChart: FC<Props> = ({ data }) => {
     },
     yAxis: {
       offset: 50,
+    },
+    xAxis: {
+      max: new Date().getTime()
     },
     tooltip: {
       useHTML: true,
