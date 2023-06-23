@@ -3,16 +3,34 @@ import fs from 'fs';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 import { TBitcoinBalanceChunk } from '../../types/bitcoinData';
-import { TChartDataPoint } from '../../types/btcChart';
+import { TAllChartData, TChartDataPoint } from '../../types/btcChart';
+import { BtcChartChunks } from '../../types/enums';
 
-const toChartDataPoints = (data: TBitcoinBalanceChunk[]): TChartDataPoint[] => {
-  const newArray: TChartDataPoint[] = [];
-  for (let i = 0; i < data.length; i++) {
-    for (let j = 1; j < data[i].length; j++) {
-      newArray.push([new Date(data[i][0]).getTime(), Number(data[i][j])]);
-    }
+const organizeDataPoints = (data: TBitcoinBalanceChunk[]): TAllChartData[] => {
+  let over1k: TChartDataPoint[] = [];
+  let over10k: TChartDataPoint[] = [];
+  let over100k: TChartDataPoint[] = [];
+  let over1M: TChartDataPoint[] = [];
+  let over10M: TChartDataPoint[] = [];
+
+  data.forEach(row => {
+    const date = new Date(row[0]).getTime()
+    over1k.push([date, Number(row[1])]);
+    over10k.push([date, Number(row[2])]);
+    over100k.push([date, Number(row[3])]);
+    over1M.push([date, Number(row[4])]);
+    over10M.push([date, Number(row[5])]);
+  });
+  const organizedByAmount = {
+    [BtcChartChunks.Over1k]: over1k,
+    [BtcChartChunks.Over10k]: over10k,
+    [BtcChartChunks.Over100k]: over100k,
+    [BtcChartChunks.Over1M]: over1M,
+    [BtcChartChunks.Over10M]: over10M
   }
-  return newArray;
+
+  return organizedByAmount
+
 };
 
 export default (_: NextApiRequest, res: NextApiResponse) => {
@@ -25,13 +43,13 @@ export default (_: NextApiRequest, res: NextApiResponse) => {
   file
     .pipe(
       parse({
+        from_line: 2, // Starting from line 2 (ignoring header)
         delimiter: '\t',
         encoding: 'utf16le',
-        from_line: 2, // Starting from line 2 (ignoring header)
         relax_quotes: true,
         escape: '\\',
         ltrim: true,
-        rtrim: true
+        rtrim: true,
       })
     )
     .on('data', (row) => {
@@ -39,7 +57,7 @@ export default (_: NextApiRequest, res: NextApiResponse) => {
     })
     .on('end', () => {
       if (data.length > 0) {
-        res.status(200).json(toChartDataPoints(data));
+        res.status(200).json(organizeDataPoints(data));
       } else {
         res.status(404).send('No data found');
       }

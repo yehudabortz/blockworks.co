@@ -1,25 +1,31 @@
 import Highcharts, { Options, SeriesOptionsType } from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
+import { abbreviateNumber } from "js-abbreviation-number";
 import { FC, useMemo } from 'react';
 
 import { TBitcoinBalanceChunk } from '../../types/bitcoinData';
+import { BtcChartChunks } from '../../types/enums';
 
 type Props = {
   data: TBitcoinBalanceChunk[];
 };
 
 const BtcChart: FC<Props> = ({ data }) => {
+  console.log(data)
+
   const seriesData = useMemo(
     () =>
       [
-        { name: '> $1k', threshold: 1000, color: '#fa4d56' },
-        { name: '> $10k', threshold: 10000, color: '#6929c4' },
-        { name: '> $100k', threshold: 100000, color: '#002d9c' },
-        { name: '> $1M', threshold: 1000000, color: '#f1c21b' },
-        { name: '> $10M', threshold: 10000000, color: '#198038' },
-      ].map(({ name, threshold, color }) => ({
+        { name: [BtcChartChunks.Over1k], color: '#fa4d56' },
+        { name: [BtcChartChunks.Over10k], color: '#6929c4' },
+        { name: [BtcChartChunks.Over100k], color: '#002d9c' },
+        { name: [BtcChartChunks.Over1M], color: '#f1c21b' },
+        { name: [BtcChartChunks.Over10M], color: '#198038' },
+      ].map(({ name, color }) => ({
         name,
-        data: data.filter((item) => item[1] >= threshold),
+
+        data: data[name],
+
         lineWidth: 2,
         color,
         type: 'line',
@@ -49,12 +55,9 @@ const BtcChart: FC<Props> = ({ data }) => {
       formatter: function () {
         return this.points
           ?.map(
-            (point: SeriesOptionsType) =>
+            (point) =>
               `<span style="color:${point?.color}">\u25CF</span> ${point?.series.name
-              }: <b>${new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD',
-              }).format(point.y as number | bigint)}</b><br/>`,
+              }: <b>${abbreviateNumber(point.y as number, 2)}</b><br/>`,
           )
           .join('');
       },
