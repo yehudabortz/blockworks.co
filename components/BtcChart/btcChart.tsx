@@ -1,13 +1,13 @@
 import React, { useMemo } from 'react';
 import Highcharts, { SeriesOptionsType } from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
-import { IBitcoinBalanceChunk } from '../../types/bitcoinData';
+import { TBitcoinBalanceChunk } from '../../types/bitcoinData';
 import { TChartDataPoint } from '../../types/btcChart';
 
 const LINE_WIDTH = 2;
 const SERIES_TYPE = 'line';
 
-const createDataPoints = (data: IBitcoinBalanceChunk[]): TChartDataPoint[] => {
+const createDataPoints = (data: TBitcoinBalanceChunk[]): TChartDataPoint[] => {
     const newArray: TChartDataPoint[] = [];
 
     for (let i = 0; i < data.length; i++) {
@@ -19,7 +19,7 @@ const createDataPoints = (data: IBitcoinBalanceChunk[]): TChartDataPoint[] => {
 }
 
 type Props = {
-    data: IBitcoinBalanceChunk[];
+    data: TBitcoinBalanceChunk[];
 }
 
 const BtcChart: React.FC<Props> = ({ data }) => {
@@ -59,14 +59,12 @@ const BtcChart: React.FC<Props> = ({ data }) => {
     }
 
     return (
-        <div className='container m-auto'>
-            <HighchartsReact
-                highcharts={Highcharts}
-                constructorType={'stockChart'}
-                allowChartUpdate={true}
-                options={options}
-            />
-        </div>
+        <HighchartsReact
+            highcharts={Highcharts}
+            constructorType={'stockChart'}
+            allowChartUpdate={true}
+            options={options}
+        />
     )
 }
 
