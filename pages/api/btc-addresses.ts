@@ -26,9 +26,14 @@ export default (_: NextApiRequest, res: NextApiResponse) => {
       data.push(row);
     })
     .on("end", () => {
-      res.status(200).json(data);
+      if (data.length > 0) {
+        res.status(200).json(data);
+      } else {
+        res.status(404).send("No data found");
+      }
     })
     .on("error", (error) => {
-      error;
+      console.error(`Error occurred while processing data: ${error}`);
+      res.status(500).json({ error: error.message });
     });
 };
