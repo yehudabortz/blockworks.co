@@ -66,7 +66,6 @@ const BtcChart: FC<Props> = ({ data }) => {
       <HighchartsReact
         highcharts={Highcharts}
         constructorType={'stockChart'}
-        allowChartUpdate={true}
         options={options}
       />
     </div>
