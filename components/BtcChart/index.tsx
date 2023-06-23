@@ -1,4 +1,4 @@
-import Highcharts, { SeriesOptionsType } from 'highcharts/highstock';
+import Highcharts, { Options, SeriesOptionsType } from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import { FC, useMemo } from 'react';
 
@@ -27,7 +27,7 @@ const BtcChart: FC<Props> = ({ data }) => {
     [data],
   );
 
-  const options: Highcharts.Options = {
+  const options: Options = {
     rangeSelector: {
       inputStyle: {
         color: '#6800ff',
@@ -49,7 +49,7 @@ const BtcChart: FC<Props> = ({ data }) => {
       formatter: function () {
         return this.points
           ?.map(
-            (point) =>
+            (point: SeriesOptionsType) =>
               `<span style="color:${point?.color}">\u25CF</span> ${point?.series.name
               }: <b>${new Intl.NumberFormat('en-US', {
                 style: 'currency',
