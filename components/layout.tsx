@@ -35,8 +35,8 @@ export default function Layout({
                 </div>
             </main>
             <footer className='container m-auto flex-col gap-4'>
-                <h4>Blockworks Technical Interview With Yehuda Bortz</h4>
-                <p><a href="mailto:yehudabortz@icloud.com?&subject=Congats! Next Steps 🚀" target="_top">yehudabortz@icloud.com</a></p>
+                <h3 className='text-lg font-bold'>Blockworks Interview Challenge</h3>
+                <p>Yehuda Bortz: <a href="mailto:yehudabortz@icloud.com?&subject=Congats! Next Steps 🚀" target="_top">yehudabortz@icloud.com</a></p>
             </footer>
         </div >
     )
