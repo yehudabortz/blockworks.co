@@ -10,7 +10,7 @@ const Home = ({ data }: Props) => {
     return (
         <Layout home>
             <Head>
-                <title>BTC Address Balances over Time</title>
+                <title>BTC Address Balances Over Time</title>
             </Head>
             <section>
                 <BtcChart data={data} />

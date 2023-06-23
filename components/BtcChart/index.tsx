@@ -4,9 +4,6 @@ import HighchartsReact from 'highcharts-react-official';
 import { TBitcoinBalanceChunk } from '../../types/bitcoinData';
 import { TChartDataPoint } from '../../types/btcChart';
 
-const LINE_WIDTH = 2;
-const SERIES_TYPE = 'line';
-
 const createDataPoints = (data: TBitcoinBalanceChunk[]): TChartDataPoint[] => {
     const newArray: TChartDataPoint[] = [];
 
@@ -34,9 +31,9 @@ const BtcChart: React.FC<Props> = ({ data }) => {
     ].map(({ name, threshold, color }) => ({
         name,
         data: chartData.filter(item => item[1] >= threshold),
-        lineWidth: LINE_WIDTH,
+        lineWidth: 2,
         color,
-        type: SERIES_TYPE
+        type: "line"
     })), [chartData]);
 
     const options: Highcharts.Options = {
