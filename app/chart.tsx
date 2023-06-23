@@ -6,7 +6,7 @@ import Highcharts, { Options, SeriesOptionsType } from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import { FC, useMemo } from 'react';
 
-import { TBitcoinBalanceChunk } from '../../types/bitcoinData';
+import { TBitcoinBalanceChunk } from '../types/bitcoinData';
 
 type Props = {
   data: TBitcoinBalanceChunk[];

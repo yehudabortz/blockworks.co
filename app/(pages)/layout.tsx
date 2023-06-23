@@ -1,6 +1,10 @@
-import Head from 'next/head';
+import "server-only"
+import '../global.css';
+
 import Link from 'next/link';
 import { ReactNode } from 'react';
+
+import BtcChart from "../../components/BtcChart";
 
 type Props = {
   children: ReactNode;
@@ -9,12 +13,6 @@ type Props = {
 
 const Layout = ({ children }: Props) => (
   <div>
-    <Head>
-      <link rel="icon" href="/favicon.ico" />
-      <meta name="description" content="" />
-      <meta name="og:title" content="BTC Addresses" />
-      <meta name="twitter:card" content="summary_large_image" />
-    </Head>
     <nav className="relative p-6 border-b border-gray-200">
       <Link href="https://blockworks.co" target="_blank">
         <span className="sr-only">Blockworks.co</span>
