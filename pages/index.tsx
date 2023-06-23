@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import Layout from '../components/layout'
 import { GetStaticProps } from 'next'
-import BtcChart from '../components/btcChart'
+import BtcChart from '../components/BtcChart/btcChart'
 import { IBitcoinBalanceChunk } from '../types/bitcoinData'
 
 type Props = { data: IBitcoinBalanceChunk[] }

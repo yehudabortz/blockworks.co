@@ -1,12 +1,8 @@
-'use client';
-
-import 'client-only';
-
 import React, { useMemo } from 'react';
 import Highcharts, { SeriesOptionsType } from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
-import { IBitcoinBalanceChunk } from '../types/bitcoinData';
-import { TChartDataPoint } from '../types/btcChart';
+import { IBitcoinBalanceChunk } from '../../types/bitcoinData';
+import { TChartDataPoint } from '../../types/btcChart';
 
 const LINE_WIDTH = 2;
 const SERIES_TYPE = 'line';
@@ -48,7 +44,7 @@ const BtcChart: React.FC<Props> = ({ data }) => {
             enabled: true
         },
         yAxis: {
-            offset: 50,
+            offset: 50
         },
         tooltip: {
             useHTML: true,
@@ -59,7 +55,7 @@ const BtcChart: React.FC<Props> = ({ data }) => {
                 ).join('');
             }
         },
-        series: seriesData as SeriesOptionsType[],
+        series: seriesData as SeriesOptionsType[]
     }
 
     return (
