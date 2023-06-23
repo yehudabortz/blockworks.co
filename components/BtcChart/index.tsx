@@ -40,6 +40,12 @@ const BtcChart: React.FC<Props> = ({ data }) => {
     })), [chartData]);
 
     const options: Highcharts.Options = {
+        rangeSelector: {
+            inputStyle: {
+                color: '#6800ff',
+                fontWeight: 'bold'
+            },
+        },
         legend: {
             enabled: true
         },
@@ -57,14 +63,15 @@ const BtcChart: React.FC<Props> = ({ data }) => {
         },
         series: seriesData as SeriesOptionsType[]
     }
-
     return (
-        <HighchartsReact
-            highcharts={Highcharts}
-            constructorType={'stockChart'}
-            allowChartUpdate={true}
-            options={options}
-        />
+        <div className='min-h-[400px]'>
+            <HighchartsReact
+                highcharts={Highcharts}
+                constructorType={'stockChart'}
+                allowChartUpdate={true}
+                options={options}
+            />
+        </div>
     )
 }
 

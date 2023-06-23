@@ -1,7 +1,7 @@
 import { GetStaticProps } from 'next'
 import Head from 'next/head'
 import Layout from '../components/layout'
-import BtcChart from '../components/BtcChart/btcChart'
+import BtcChart from '../components/BtcChart'
 import { TBitcoinBalanceChunk } from '../types/bitcoinData'
 
 type Props = { data: TBitcoinBalanceChunk[] }
@@ -20,7 +20,9 @@ export default function Home({ data }: Props) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-    const res = await fetch('http://localhost:3000/api/btc-addresses');
+    let res = await fetch('http://localhost:3000/api/btc-addresses');
+
+
     const data = await res.json()
     return {
         props: { data }
