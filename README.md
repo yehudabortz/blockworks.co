@@ -1,3 +1,5 @@
+![BLockworks-Graphic.png](BLockworks-Graphic.png)
+
 ### Startup
 
 1. `npm install`
