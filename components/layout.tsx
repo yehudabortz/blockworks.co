@@ -26,7 +26,7 @@ const Layout = ({ children }: Props) => {
             </nav>
             <header className='pt-12'>
                 <div className='container m-auto flex-col gap-4'>
-                    <h1 className="font-bold text-gray-900 text-2xl text-center">BTC Address Balances over Time</h1>
+                    <h1 className="font-bold text-gray-900 text-2xl text-center">BTC Address Balances Over Time</h1>
                 </div>
             </header>
             <main >
