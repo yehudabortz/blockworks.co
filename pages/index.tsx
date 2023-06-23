@@ -3,9 +3,9 @@ import Head from 'next/head';
 
 import BtcChart from '../components/BtcChart';
 import Layout from '../components/layout';
-import { TBitcoinBalanceChunk } from '../types/bitcoinData';
+import { TAllChartData } from '../types/btcChart';
 
-type Props = { data: TBitcoinBalanceChunk[] }
+type Props = { data: TAllChartData }
 
 function Home({ data }: Props) {
     return (
