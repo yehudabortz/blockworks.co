@@ -27,7 +27,7 @@ export default (_: NextApiRequest, res: NextApiResponse) => {
       parse({
         delimiter: '\t',
         encoding: 'utf16le',
-        from_line: 2,
+        from_line: 2, // Starting from line 2 (ignoring header)
         relax_quotes: true,
         escape: '\\',
         ltrim: true,
@@ -48,3 +48,5 @@ export default (_: NextApiRequest, res: NextApiResponse) => {
       res.status(500).json({ error: error.message });
     });
 };
+
+export const revalidate = 86400; // revalidate once a day
