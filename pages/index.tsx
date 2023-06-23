@@ -6,7 +6,7 @@ import { TBitcoinBalanceChunk } from '../types/bitcoinData'
 
 type Props = { data: TBitcoinBalanceChunk[] }
 
-export default function Home({ data }: Props) {
+const Home = ({ data }: Props) => {
     return (
         <Layout home>
             <Head>
@@ -28,3 +28,5 @@ export const getStaticProps: GetStaticProps = async () => {
         props: { data }
     }
 }
+
+export default Home

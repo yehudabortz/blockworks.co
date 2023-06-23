@@ -1,12 +1,12 @@
 import Head from 'next/head'
 import Link from 'next/link'
 
-export default function Layout({
-    children
-}: {
+type Props = {
     children: React.ReactNode
     home?: boolean
-}) {
+}
+
+const Layout = ({ children }: Props) => {
     return (
         <div>
             <Head>
@@ -41,3 +41,5 @@ export default function Layout({
         </div >
     )
 }
+
+export default Layout
