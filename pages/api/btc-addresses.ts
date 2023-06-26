@@ -1,20 +1,20 @@
-import { parse } from 'csv-parse';
-import fs from 'fs';
-import { NextApiRequest, NextApiResponse } from 'next';
+import { parse } from "csv-parse";
+import fs from "fs";
+import { NextApiRequest, NextApiResponse } from "next";
 
-import { TBitcoinBalanceChunk } from '../../types/bitcoinData';
-import { TAllChartData, TChartDataPoint } from '../../types/btcChart';
-import { BtcChartChunks } from '../../types/enums';
+import { TBitcoinBalanceChunk } from "../../types/bitcoinData";
+import { TAllChartData, TChartDataPoint } from "../../types/btcChart";
+import { BtcChartChunks } from "../../types/enums";
 
-const organizeDataPoints = (data: TBitcoinBalanceChunk[]): TAllChartData[] => {
+const organizeDataPoints = (data: TBitcoinBalanceChunk[]): TAllChartData => {
   let over1k: TChartDataPoint[] = [];
   let over10k: TChartDataPoint[] = [];
   let over100k: TChartDataPoint[] = [];
   let over1M: TChartDataPoint[] = [];
   let over10M: TChartDataPoint[] = [];
 
-  data.forEach(row => {
-    const date = new Date(row[0]).getTime()
+  data.forEach((row) => {
+    const date = new Date(row[0]).getTime();
     over1k.push([date, Number(row[1])]);
     over10k.push([date, Number(row[2])]);
     over100k.push([date, Number(row[3])]);
@@ -26,43 +26,42 @@ const organizeDataPoints = (data: TBitcoinBalanceChunk[]): TAllChartData[] => {
     [BtcChartChunks.Over10k]: over10k,
     [BtcChartChunks.Over100k]: over100k,
     [BtcChartChunks.Over1M]: over1M,
-    [BtcChartChunks.Over10M]: over10M
-  }
+    [BtcChartChunks.Over10M]: over10M,
+  };
 
-  return organizedByAmount
-
+  return organizedByAmount;
 };
 
 export default (_: NextApiRequest, res: NextApiResponse) => {
   const data: TBitcoinBalanceChunk[] = [];
 
   const file = fs.createReadStream(
-    'data/Coin_Metrics_Network_Data_2023-02-02T14-32.csv'
+    "data/Coin_Metrics_Network_Data_2023-02-02T14-32.csv",
   );
 
   file
     .pipe(
       parse({
         from_line: 2, // Starting from line 2 (ignoring header)
-        delimiter: '\t',
-        encoding: 'utf16le',
+        delimiter: "\t",
+        encoding: "utf16le",
         relax_quotes: true,
-        escape: '\\',
+        escape: "\\",
         ltrim: true,
         rtrim: true,
-      })
+      }),
     )
-    .on('data', (row) => {
+    .on("data", (row) => {
       data.push(row);
     })
-    .on('end', () => {
+    .on("end", () => {
       if (data.length > 0) {
         res.status(200).json(organizeDataPoints(data));
       } else {
-        res.status(404).send('No data found');
+        res.status(404).send("No data found");
       }
     })
-    .on('error', (error) => {
+    .on("error", (error) => {
       res.status(500).json({ error: error.message });
     });
 };
