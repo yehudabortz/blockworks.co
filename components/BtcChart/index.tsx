@@ -1,3 +1,7 @@
+'use client';
+
+import 'client-only';
+
 import Highcharts, { Options, SeriesOptionsType, TooltipFormatterContextObject } from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import { abbreviateNumber } from "js-abbreviation-number";

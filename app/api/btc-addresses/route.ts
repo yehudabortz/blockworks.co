@@ -1,10 +1,11 @@
+import "server-only";
+
 import { parse } from "csv-parse";
 import fs from "fs";
-import { NextApiRequest, NextApiResponse } from "next";
 
-import { TBitcoinBalanceChunk } from "../../types/bitcoinData";
-import { TAllChartData, TChartDataPoint } from "../../types/btcChart";
-import { BtcChartChunks } from "../../types/enums";
+import { TBitcoinBalanceChunk } from "../../../types/bitcoinData";
+import { TAllChartData, TChartDataPoint } from "../../../types/btcChart";
+import { BtcChartChunks } from "../../../types/enums";
 
 const organizeDataPoints = (data: TBitcoinBalanceChunk[]): TAllChartData => {
   let over1k: TChartDataPoint[] = [];
@@ -32,9 +33,10 @@ const organizeDataPoints = (data: TBitcoinBalanceChunk[]): TAllChartData => {
   return organizedByAmount;
 };
 
-export default (_: NextApiRequest, res: NextApiResponse) => {
-  const data: TBitcoinBalanceChunk[] = [];
-  return new Promise((resolve) => {
+import { NextResponse } from "next/server";
+const getBtcAddressesData = (): Promise<TBitcoinBalanceChunk[]> => {
+  return new Promise((resolve, reject) => {
+    const data: TBitcoinBalanceChunk[] = [];
     const file = fs.createReadStream(
       "data/Coin_Metrics_Network_Data_2023-02-02T14-32.csv",
     );
@@ -55,16 +57,16 @@ export default (_: NextApiRequest, res: NextApiResponse) => {
         data.push(row);
       })
       .on("end", () => {
-        if (data.length > 0) {
-          resolve(res.status(200).json(organizeDataPoints(data)));
-        } else {
-          res.status(404).send("No data found");
-        }
+        const chartData = organizeDataPoints(data);
+        resolve(chartData as any);
       })
       .on("error", (error) => {
-        res.status(500).send(error);
+        reject(error);
       });
   });
 };
 
-export const revalidate = 86400; // revalidate once a day
+export async function GET() {
+  const btcAddressesData = await getBtcAddressesData();
+  return NextResponse.json(btcAddressesData);
+}
