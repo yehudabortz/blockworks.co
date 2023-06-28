@@ -1,25 +1,30 @@
 {
-	"env": {
-	"browser": true
-	},
-	"root": true,
-	"plugins": [
-		"react",
-		"react-hooks",
-		"@typescript-eslint",
-		"prettier",
-		"simple-import-sort"
-	],
-	"extends": [
-	"eslint:recommended",
+  "env": {
+    "browser": true
+  },
+  "root": true,
+  "plugins": [
+    "react",
+    "react-hooks",
+    "@typescript-eslint",
+    "prettier",
+    "simple-import-sort"
+  ],
+  "extends": [
+    "eslint:recommended",
     "plugin:react/recommended",
-	"plugin:react/jsx-runtime",
+    "plugin:react/jsx-runtime",
     "plugin:react-hooks/recommended"
-	],
-	"parser": "@typescript-eslint/parser",
-	"rules": {
-		"no-multiple-empty-lines": ["error", { "max": 1, "maxEOF": 0, "maxBOF": 0 }],
-    	"simple-import-sort/imports": "error"
-  	}
-
+  ],
+  "parser": "@typescript-eslint/parser",
+  "rules": {
+    "no-multiple-empty-lines": [
+      "error",
+      { "max": 1, "maxEOF": 0, "maxBOF": 0 }
+    ],
+    "simple-import-sort/imports": "error"
+  },
+  "globals": {
+    "process": "readonly"
+  }
 }

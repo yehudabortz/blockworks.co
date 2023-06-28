@@ -34,36 +34,37 @@ const organizeDataPoints = (data: TBitcoinBalanceChunk[]): TAllChartData => {
 
 export default (_: NextApiRequest, res: NextApiResponse) => {
   const data: TBitcoinBalanceChunk[] = [];
+  return new Promise((resolve) => {
+    const file = fs.createReadStream(
+      "data/Coin_Metrics_Network_Data_2023-02-02T14-32.csv",
+    );
 
-  const file = fs.createReadStream(
-    "data/Coin_Metrics_Network_Data_2023-02-02T14-32.csv",
-  );
-
-  file
-    .pipe(
-      parse({
-        from_line: 2, // Starting from line 2 (ignoring header)
-        delimiter: "\t",
-        encoding: "utf16le",
-        relax_quotes: true,
-        escape: "\\",
-        ltrim: true,
-        rtrim: true,
-      }),
-    )
-    .on("data", (row) => {
-      data.push(row);
-    })
-    .on("end", () => {
-      if (data.length > 0) {
-        res.status(200).json(organizeDataPoints(data));
-      } else {
-        res.status(404).send("No data found");
-      }
-    })
-    .on("error", (error) => {
-      res.status(500).json({ error: error.message });
-    });
+    file
+      .pipe(
+        parse({
+          from_line: 2, // Starting from line 2 (ignoring header)
+          delimiter: "\t",
+          encoding: "utf16le",
+          relax_quotes: true,
+          escape: "\\",
+          ltrim: true,
+          rtrim: true,
+        }),
+      )
+      .on("data", (row) => {
+        data.push(row);
+      })
+      .on("end", () => {
+        if (data.length > 0) {
+          resolve(res.status(200).json(organizeDataPoints(data)));
+        } else {
+          res.status(404).send("No data found");
+        }
+      })
+      .on("error", (error) => {
+        res.status(500).send(error);
+      });
+  });
 };
 
 export const revalidate = 86400; // revalidate once a day
