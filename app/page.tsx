@@ -13,6 +13,7 @@ const getData = async () => {
 
 const Index = async () => {
     const data = await getData()
+    console.log(data)
     if (!data) return null
     return (
         <div>
