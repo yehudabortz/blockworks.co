@@ -3,7 +3,8 @@ import "server-only"
 import BtcChart from '../components/BtcChart';
 
 const getData = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE}/api/btc-addresses`)
+    // const res = await fetch(`${process.env.NEXT_PUBLIC_BASE}/api/btc-addresses`)
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE}/api/test`)
     if (!res.ok) {
         throw new Error('Failed to fetch data')
     }
