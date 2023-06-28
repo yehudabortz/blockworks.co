@@ -38,7 +38,7 @@ const getBtcAddressesData = (): Promise<TBitcoinBalanceChunk[]> => {
   return new Promise((resolve, reject) => {
     const data: TBitcoinBalanceChunk[] = [];
     const file = fs.createReadStream(
-      "../../../public/Coin_Metrics_Network_Data_2023-02-02T14-32.csv",
+      "public/Coin_Metrics_Network_Data_2023-02-02T14-32.csv",
     );
 
     file
