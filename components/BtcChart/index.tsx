@@ -1,4 +1,4 @@
-import Highcharts, { Options, SeriesOptionsType } from 'highcharts/highstock';
+import Highcharts, { Options, SeriesOptionsType, TooltipFormatterContextObject } from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import { abbreviateNumber } from "js-abbreviation-number";
 import { useMemo } from 'react';
@@ -51,7 +51,7 @@ const BtcChart = ({ data }: Props) => {
       formatter: function () {
         return this.points
           ?.map(
-            (point) =>
+            (point: TooltipFormatterContextObject) =>
               `<span style="color:${point?.color}">\u25CF</span> ${point?.series.name
               }: <b>${abbreviateNumber(point.y as number, 2)}</b><br/>`,
           )
