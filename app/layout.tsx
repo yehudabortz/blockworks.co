@@ -1,7 +1,6 @@
 import "server-only"
 import "../styles/global.css"
 
-import Head from 'next/head';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 
@@ -15,12 +14,12 @@ const RootLayout = ({ children }: Props) => (
     <body className="flex min-h-full flex-col font-sans antialiased [overflow-anchor:none]">
 
       <div>
-        <Head>
+        {/* <Head>
           <link rel="icon" href="/favicon.ico" />
           <meta name="description" content="" />
           <meta name="og:title" content="BTC Addresses" />
           <meta name="twitter:card" content="summary_large_image" />
-        </Head>
+        </Head> */}
         <nav className="relative p-6 border-b border-gray-200">
           <Link href="https://blockworks.co" target="_blank">
             <span className="sr-only">Blockworks.co</span>
