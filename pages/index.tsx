@@ -4,6 +4,7 @@ import Head from 'next/head';
 import BtcChart from '../components/BtcChart';
 import Layout from '../components/layout';
 import { TAllChartData } from '../types/btcChart';
+import fetcher from '../utils/fetcher';
 
 type Props = { data: TAllChartData }
 
@@ -21,14 +22,8 @@ function Home({ data }: Props) {
 }
 
 export const getStaticProps: GetStaticProps = async () => {
-    // const res = await fetch(`${process.env.NEXT_PUBLIC_BASE}/api/btc-addresses`);
+    const data = await fetcher(`${process.env.NEXT_PUBLIC_BASE}/api/btc-addresses`);
 
-    // const data = await res.json();
-    const data = {
-        '> $1k': [
-            [1279411200000, 18], [1279497600000, 19], [1279584000000, 17]]
-    };
-    // console.log(data)
     return {
         props: { data },
     };
